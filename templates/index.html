@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Task Master{% endblock %}
+
+{% block body %}
+<h1 class="text-center mb-4">Task Master</h1>
+
+<!-- Add task form ABOVE the list -->
+<div class="form mb-4">
+    <form action="/" method="POST" class="d-flex justify-content-center">
+        <input type="text" name="content" id="content" placeholder="Enter a task" class="form-control w-50 me-2"
+            required>
+        <input type="submit" value="Add Task" class="btn btn-success">
+    </form>
+</div>
+
+<!-- Task table -->
+{% if tasks %}
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Task</th>
+            <th>Added</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.content }}</td>
+            <td>{{ task.date_created.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>
+                <a href="{{ url_for('update', id=task.id) }}" class="btn btn-primary btn-sm">Update</a>
+                <a href="{{ url_for('delete', id=task.id) }}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+<h4 class="text-center text-muted">There are no tasks. Create one above!</h4>
+{% endif %}
+{% endblock %}
